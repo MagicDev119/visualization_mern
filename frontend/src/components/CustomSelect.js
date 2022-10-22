@@ -18,8 +18,8 @@ const MenuProps = {
   },
 };
 
-const CustomSelect = ({ min, max, changeValue, category }) => {
-  const [value, setValue] = useState([])
+const CustomSelect = ({ min, max, changeValue, category, uData, inputClass }) => {
+  const [value, setValue] = useState(uData || [])
   const theme = useTheme();
 
   const handleSelect = (value) => {
@@ -34,16 +34,16 @@ const CustomSelect = ({ min, max, changeValue, category }) => {
           displayEmpty
           value={value}
           onChange={(event) => handleSelect(event.target.value)}
-          input={<Input disableUnderline={true} className="input-text fillAvailable" />}
+          input={<Input disableUnderline={true} className={inputClass ? "list-select-box fillAvailable" : "input-text fillAvailable"} />}
           renderValue={(selected) => {
             if (selected.length === 0) {
-              return <Box component="span" sx={{ color: '#9e9e9e' }}>{category}</Box>;
+              return <Box component="span" sx={inputClass ? { color: '#111111' } : { color: '#9e9e9e' }}>{category}</Box>;
             }
 
             return selected;
           }}
           MenuProps={MenuProps}
-          inputProps={{ 'aria-label': 'Without label' }}
+          inputProps={{ 'aria-label': 'Without label', 'className': inputClass ? 'text-black padding-right-15' : 'padding-right-15' }}
         >
           <MenuItem disabled value="">
             {category}

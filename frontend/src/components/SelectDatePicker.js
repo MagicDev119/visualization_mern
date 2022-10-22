@@ -6,12 +6,17 @@ import {
   MenuItem,
   Select
 } from '@mui/material'
-const SelectDatePicker = ({ handleDate }) => {
-  const [curMonth, setMonth] = useState(null);
-  const [curDate, setDate] = useState(null);
-  const [curYear, setYear] = useState(null);
+const SelectDatePicker = ({ handleDate, birthday }) => {
+  const birthObj = birthday ? birthday.split('-') : []
+
+  const [curMonth, setMonth] = useState(birthObj[1] || null);
+  const [curDate, setDate] = useState(birthObj[2] || null);
+  const [curYear, setYear] = useState(birthObj[0] || null);
+
   const [dateLimit, setDateLimit] = useState(31);
+
   const changeValue = (val, cate) => {
+    console.log('val', val)
     switch (cate) {
       case 'Month':
         setMonth(val)
@@ -42,9 +47,9 @@ const SelectDatePicker = ({ handleDate }) => {
   return (
     <>
       <Box sx={{ display: "flex", gap: "10px" }}>
-        <CustomSelect min={1} max={12} changeValue={changeValue} category="Month" />
-        <CustomSelect min={1} max={dateLimit} changeValue={changeValue} category="Date" />
-        <CustomSelect min={1990} max={nowYear} changeValue={changeValue} category="Year" />
+        <CustomSelect min={1} max={12} changeValue={changeValue} category="Month" uData={birthObj[1]} />
+        <CustomSelect min={1} max={dateLimit} changeValue={changeValue} category="Date" uData={birthObj[2]} />
+        <CustomSelect min={1990} max={nowYear} changeValue={changeValue} category="Year" uData={birthObj[0]} />
       </Box>
     </>
   );

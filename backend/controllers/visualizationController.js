@@ -1,12 +1,24 @@
 const visualizationModel = require('../models/visualizationModel')
+const utils = require('../utils/utils')
 
 const index = async function (req, res, next) {
   try {
-    let visualizationList = await visualizationModel.find({
-      userId: req.user.id
+    const findQuery = {
+      userId: req.user._id
+    }
+    let visualizationList = await visualizationModel.find(findQuery).populate('userId')
+    let sharedVisualizationList = await visualizationModel.find({
+      shared: true
+    }).populate('userId')
+    visualizationList = [...visualizationList, ...sharedVisualizationList]
+    visualizationList = visualizationList.filter(each => {
+      const gender = req.query.gender ? (each.userId.gender === req.query.gender) : true
+      const race = req.query.race ? (each.userId.race === req.query.race) : true
+      const age = req.query.age ? (utils._calculateAge(each.userId.birthday) == req.query.age) : true
+      return gender && race && age
     })
     let defaultList = await visualizationModel.find({
-      type: "default"
+      category: "default"
     })
     return res.send({
       code: 200,
@@ -14,6 +26,7 @@ const index = async function (req, res, next) {
       data: [...visualizationList, ...defaultList],
     })
   } catch (error) {
+    console.log(error)
     return res
       .status(404)
       .send({ code: 404, messsage: "not able to get list", error: error })

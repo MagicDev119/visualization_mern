@@ -10,15 +10,28 @@ const VisualizationSchema = new mongoose.Schema({
         type: String
     },
     description: {
-        type: String
+        type: Array
     },
     like: {
-        type: Array
+        type: Array,
+        default: []
     },
     deleted_at: {
         type: Date
     },
+    shared: {
+        type: Boolean,
+        default: false
+    },
+    thumbnail_url: {
+        type: String
+    },
     type: {
+        type: String,
+        enum: ['remix', 'single'],
+        default: 'single'
+    },
+    category: {
         type: String,
         enum: ['default', 'user'],
         default: 'user'

@@ -58,7 +58,7 @@
 }
 
 .description {
-  font-size: 16px;
+  font-size: 16px !important;
   color: #a7a7a7;
 }
 
@@ -73,9 +73,25 @@
   font-weight: bold !important;
 }
 
+.header-button {
+  font-size: 14px !important;
+  border-radius: 15px !important;
+  padding-top: 0.3rem !important;
+  padding-bottom: 0.1rem !important;
+  margin: 0.1rem !important;
+  background-color: #C2F947 !important;
+  font-weight: bold !important;
+}
+
 .buttonText {}
 
-.infoText {}
+.infoText {
+  font-size: 14px;
+}
+
+.img-list {
+  flex-grow: initial !important;
+}
 
 .subTitle {}
 
@@ -92,7 +108,16 @@
   padding-left: 22px;
 }
 
-.textOverElement {}
+.textOverElement {
+  position: absolute;
+  color: black;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  font-weight: 900;
+  font-size: 7vw;
+  letter-spacing: 3;
+}
 
 .termsPolicyText {
   font-size: 13px !important;
@@ -129,4 +154,47 @@ textarea.input-text {
 .input-text input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #212121 inset;
   -webkit-text-fill-color: #FFFFFF;
+}
+
+.center-circle {
+  width: 80vw;
+  height: 80vw;
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 50vh;
+  transform: translateY(-60%);
+}
+
+.top-left-button {
+  position: absolute !important;
+  top: -3px;
+  left: -19px;
+}
+
+.padding-right-15 {
+  padding-right: 10px !important;
+}
+
+.image-list-root {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  overflow: hidden;
+}
+
+.list-select-box {
+  font-size: 17px !important;
+  border-radius: 26px !important;
+  background-color: #FFFFFF;
+  padding: 11px 19px;
+  margin: 10px 0;
+  border: 0;
+}
+
+.list-select-box .MuiSvgIcon-root {
+  color: #444;
+}
+
+.text-black {
+  color: #111 !important;
 }

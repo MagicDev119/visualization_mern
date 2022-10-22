@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 // import GoogleButton from 'react-google-button'
 import UserService from "../../services/UserService"
-import { handleLogin } from '../../redux/authSlice'
+import { visionData } from '../../redux/visionSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom"
 
@@ -37,24 +37,31 @@ const Exercise = () => {
   const navigate = useNavigate()
   const [userGender, setUserGender] = useState([])
   const [userRace, setUserRace] = useState([]);
-  const [userBirth, setUserBirth] = useState(null);
+  const [visionDescription, setVisionDescription] = useState('');
   const handleStartVisionButton = () => {
-    UserService.update({
-      birthday: userBirth,
-      gender: userGender,
-      race: userRace
-    }).then(res => {
-      if (res.code === 200) {
-        const curUser = JSON.parse(localStorage.getItem('user'))
-        dispatch(handleLogin({
-          ...curUser,
-          birthday: res.newUserData.birthday,
-          gender: res.newUserData.gender,
-          race: res.newUserData.race
-        }))
-        navigate('/vision/meditation')
+    dispatch(visionData({
+      visionData: {
+        description: visionDescription,
+        processing: 'start'
       }
-    })
+    }))
+    navigate('/vision/prepare')
+    // UserService.update({
+    //   birthday: userBirth,
+    //   gender: userGender,
+    //   race: userRace
+    // }).then(res => {
+    //   if (res.code === 200) {
+    //     const curUser = JSON.parse(localStorage.getItem('user'))
+    //     dispatch(handleLogin({
+    //       ...curUser,
+    //       birthday: res.newUserData.birthday,
+    //       gender: res.newUserData.gender,
+    //       race: res.newUserData.race
+    //     }))
+    //     navigate('/vision/meditation')
+    //   }
+    // })
   }
 
   return (
@@ -74,7 +81,8 @@ const Exercise = () => {
               aria-label="maximum height"
               placeholder="Describe what you envision."
               className="input-text fillAvailable"
-              defaultValue=""
+              value={visionDescription}
+              onChange={e => setVisionDescription(e.target.value)}
             />
           </Box>
         </Box>

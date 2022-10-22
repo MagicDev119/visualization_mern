@@ -1,6 +1,6 @@
-import { Route, Routes, Navigate } from 'react-router';
-import "./libs/axiosInit";
-import io from 'socket.io-client';
+import { Route, Routes, Navigate } from 'react-router'
+import "./libs/axiosInit"
+import io from 'socket.io-client'
 import {
   Container,
   CssBaseline,
@@ -9,29 +9,33 @@ import {
   responsiveFontSizes,
   Theme,
   ThemeOptions,
-} from '@mui/material';
+} from '@mui/material'
 
-import './App.css';
+import './App.css'
 import { useEffect, useState } from 'react'
-import Home from "./pages/Home";
+import Home from "./pages/Home"
 
-import Login from "./pages/user/Login";
-import SignUp from "./pages/user/SignUp";
-import UserInfo from "./pages/user/UserInfo";
-import Profile from "./pages/user/Profile";
-import Settings from "./pages/user/Settings";
+import Login from "./pages/user/Login"
+import SignUp from "./pages/user/SignUp"
+import UserInfo from "./pages/user/UserInfo"
+import Profile from "./pages/user/Profile"
+import Settings from "./pages/user/Settings"
 
-import Meditation from "./pages/vision/Meditation";
-import Exercise from "./pages/vision/Exercise";
-import Visioning from "./pages/vision/Visioning";
-import Detail from "./pages/vision/Detail";
-import VisionList from "./pages/vision/VisionList";
+import Meditation from "./pages/vision/Meditation"
+import Exercise from "./pages/vision/Exercise"
+import Visioning from "./pages/vision/Visioning"
+import Detail from "./pages/vision/Detail"
+import Prepare from "./pages/vision/Prepare"
+import VisionList from "./pages/vision/VisionList"
 
-const socket = io();
+import { useSelector, useDispatch } from 'react-redux';
+import { changeStatus, visionInfo } from './redux/visionSlice';
 
+const socket = io('http://localhost:5000')
 function App() {
 
-  const createAppTheme = (options) => responsiveFontSizes(createTheme(options));
+  const dispatch = useDispatch()
+  const createAppTheme = (options) => responsiveFontSizes(createTheme(options))
   const theme = createAppTheme({
     palette: {
       mode: 'dark',
@@ -55,26 +59,46 @@ function App() {
     }
   })
 
+  const savedVisionInfo = useSelector(visionInfo);
+
   useEffect(() => {
-    socket.on('message', (data) => {
+    socket.on('generated', (data) => {
       console.log(data)
-    });
+      dispatch(changeStatus({
+        visionStatus: 'generated'
+      }))
+    })
+
+    socket.on('error', (err) => {
+      console.log(err)
+    })
 
     return () => {
-      socket.off('pong');
-    };
-  }, []);
+      socket.off('generated')
+    }
+  }, [])
+
+  useEffect(() => {
+    if (socket && savedVisionInfo.processing === 'start') {
+      dispatch(changeStatus({
+        visionStatus: 'working'
+      }))
+
+      socket.emit('message', {
+        ...savedVisionInfo,
+        token: localStorage.getItem("token")
+      })
+    }
+  }, [savedVisionInfo])
 
   const isLoggedIn = () => {
     return localStorage.getItem("token") && localStorage.getItem("token") !== 'undefined' && localStorage.getItem("token") !== 'null'
   }
 
   const AuthGate = ({ children }) => {
-    console.log(localStorage.getItem("token"))
     return (
       <>
         {isLoggedIn() ? children : <Navigate to="/" component={Home} />}
-
       </>
     )
   }
@@ -98,9 +122,9 @@ function App() {
               <Route path="/vision/meditation" element={<Meditation />} />
               <Route path="/vision/exercise" element={<Exercise />} />
               <Route path="/vision/visioning" element={<Visioning />} />
+              <Route path="/vision/prepare" element={<Prepare />} />
               <Route path="/vision/detail" element={<Detail />} />
               <Route path="/vision/list" element={<VisionList type="list" />} />
-              <Route path="/vision/progress" element={<VisionList type="progress" />} />
               <Route path="/vision/search" element={<VisionList type="search" />} />
               <Route path="/vision/remix" element={<VisionList type="remix" />} />
             </Routes>
@@ -108,7 +132,7 @@ function App() {
         </Routes >
       </Container>
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App
