@@ -10,7 +10,6 @@ import {
   InputLabel
 } from '@mui/material'
 import ArrowBackIos from '@mui/icons-material/ArrowBackIos'
-// import GoogleButton from 'react-google-button'
 import UserService from "../../services/UserService"
 import { handleLogin } from '../../redux/authSlice'
 import { useDispatch } from 'react-redux'
@@ -27,15 +26,22 @@ const MenuProps = {
   },
 };
 const races = constants.races
+const getDate = (date) => {
+  let yourDate = new Date(date)
+  const offset = yourDate.getTimezoneOffset()
+  yourDate = new Date(yourDate.getTime() - (offset * 60 * 1000))
+  return yourDate.toISOString().split('T')[0]
+}
 const Settings = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const userInfo = JSON.parse(localStorage.getItem('user'))
+  console.log(userInfo)
   const [email, setEmail] = useState(userInfo.email)
   const [password, setPassword] = useState('')
   const [userGender, setUserGender] = useState(userInfo.gender)
   const [userRace, setUserRace] = useState(userInfo.race);
-  const [userBirth, setUserBirth] = useState(userInfo.birthday);
+  const [userBirth, setUserBirth] = useState(getDate(userInfo.birthday));
   const handleSaveButton = () => {
     UserService.update({
       birthday: userBirth,
@@ -48,10 +54,10 @@ const Settings = () => {
         const curUser = JSON.parse(localStorage.getItem('user'))
         dispatch(handleLogin({
           ...curUser,
-          birthday: res.newUserData.birthday,
-          gender: res.newUserData.gender,
-          race: res.newUserData.race,
-          email: res.newUserData.email
+          birthday: res.newUserData.newUserData.birthday,
+          gender: res.newUserData.newUserData.gender,
+          race: res.newUserData.newUserData.race,
+          email: res.newUserData.newUserData.email
         }))
         navigate('/user/profile')
       }
@@ -61,10 +67,9 @@ const Settings = () => {
   return (
     <>
       <Box component="div" sx={{ mt: 4 }}>
-        <Box component="div" sx={{ mx: '13px', position: 'relative' }}>
+        <Box component="div" sx={{ mx: '0', position: 'relative' }}>
           <h1 className="pageTitle">Settings </h1>
-          <IconButton onClick={() => navigate('/user/profile')} className="top-left-button" color="primary" aria-label="upload picture" component="label">
-            <input hidden accept="image/*" type="file" />
+          <IconButton onClick={() => navigate(-1)} className="top-left-button" color="primary" aria-label="upload picture" component="label">
             <ArrowBackIos />
           </IconButton>
         </Box>
@@ -89,7 +94,7 @@ const Settings = () => {
               onChange={(event) => setUserGender(event.target.value)}
               input={<Input disableUnderline={true} className="input-text fillAvailable" />}
               renderValue={(selected) => {
-                if (selected.length === 0) {
+                if (selected && selected.length === 0) {
                   return <Box component="span" sx={{ color: '#9e9e9e' }}>Gender</Box>;
                 }
 
@@ -122,7 +127,7 @@ const Settings = () => {
               onChange={(event) => setUserRace(event.target.value)}
               input={<Input disableUnderline={true} className="input-text fillAvailable" />}
               renderValue={(selected) => {
-                if (selected.length === 0) {
+                if (selected && selected.length === 0) {
                   return <Box component="span" sx={{ color: '#9e9e9e' }}>Race</Box>;
                 }
 

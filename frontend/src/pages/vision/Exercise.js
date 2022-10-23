@@ -1,42 +1,16 @@
 import React, { useState } from "react"
-import SelectDatepicker from '../../components/SelectDatePicker';
 import {
   Box,
   Button,
-  Input,
-  Checkbox,
-  FormControlLabel,
-  Typography,
-  Link,
-  MenuItem,
-  Select,
   TextareaAutosize,
-  InputLabel
 } from '@mui/material'
-// import GoogleButton from 'react-google-button'
-import UserService from "../../services/UserService"
 import { visionData } from '../../redux/visionSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom"
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const races = ['American Indian or Alaska Native', 'Asian', 'Black or African American', 'Hispanic or Latino', 'Native Hawaiian or Other Pacific Islander', 'White'];
-
 const Exercise = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [userGender, setUserGender] = useState([])
-  const [userRace, setUserRace] = useState([]);
   const [visionDescription, setVisionDescription] = useState('');
   const handleStartVisionButton = () => {
     dispatch(visionData({
@@ -46,22 +20,6 @@ const Exercise = () => {
       }
     }))
     navigate('/vision/prepare')
-    // UserService.update({
-    //   birthday: userBirth,
-    //   gender: userGender,
-    //   race: userRace
-    // }).then(res => {
-    //   if (res.code === 200) {
-    //     const curUser = JSON.parse(localStorage.getItem('user'))
-    //     dispatch(handleLogin({
-    //       ...curUser,
-    //       birthday: res.newUserData.birthday,
-    //       gender: res.newUserData.gender,
-    //       race: res.newUserData.race
-    //     }))
-    //     navigate('/vision/meditation')
-    //   }
-    // })
   }
 
   return (

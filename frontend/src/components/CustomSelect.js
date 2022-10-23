@@ -19,7 +19,7 @@ const MenuProps = {
 };
 
 const CustomSelect = ({ min, max, changeValue, category, uData, inputClass }) => {
-  const [value, setValue] = useState(uData || [])
+  const [value, setValue] = useState(parseInt(uData) || [])
   const theme = useTheme();
 
   const handleSelect = (value) => {
@@ -36,7 +36,7 @@ const CustomSelect = ({ min, max, changeValue, category, uData, inputClass }) =>
           onChange={(event) => handleSelect(event.target.value)}
           input={<Input disableUnderline={true} className={inputClass ? "list-select-box fillAvailable" : "input-text fillAvailable"} />}
           renderValue={(selected) => {
-            if (selected.length === 0) {
+            if (selected && selected.length === 0) {
               return <Box component="span" sx={inputClass ? { color: '#111111' } : { color: '#9e9e9e' }}>{category}</Box>;
             }
 

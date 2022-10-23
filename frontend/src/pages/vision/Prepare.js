@@ -1,6 +1,5 @@
 import { Box, Button, Input, CardMedia } from '@mui/material'
 import { useEffect } from 'react'
-// import GoogleButton from 'react-google-button'
 import { useNavigate } from "react-router-dom"
 
 const Prepare = () => {

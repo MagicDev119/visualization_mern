@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Box, Button, Input } from '@mui/material'
-// import GoogleButton from 'react-google-button'
 import UserService from "../../services/UserService"
 import { handleLogin } from '../../redux/authSlice'
 import { useDispatch } from 'react-redux'
@@ -11,7 +10,6 @@ const Login = () => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const inputStyle = { WebkitBoxShadow: "0 0 0 1000px #212121 inset", WebkitTextFillColor: '#FFFFFF' };
   const handleLoginButton = () => {
     UserService.login({
       email,
@@ -19,7 +17,7 @@ const Login = () => {
     }).then(res => {
       if (res.code === 200) {
 
-        dispatch(handleLogin({ ...res.user, token: res.token }))
+        dispatch(handleLogin({ ...res.user.user, token: res.token }))
         navigate('/vision/meditation')
       }
     })

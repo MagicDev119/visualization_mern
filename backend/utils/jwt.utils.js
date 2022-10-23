@@ -28,11 +28,6 @@ class JWTUtils {
                     auth: false,
                     message: 'Invalid user'
                 })
-                // else if (validUser.isLoggedIn === false) return response.status(401).send({
-                //     code: 401,
-                //     auth: false,
-                //     message: 'Needs to loggedIn first!'
-                // })
                 /**To verify a jwt token   */
                 jwt.verify(token, process.env.JWT_SECRET, function (error) {
                     /** To check the token is not expired  */

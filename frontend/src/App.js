@@ -7,8 +7,6 @@ import {
   ThemeProvider,
   createTheme,
   responsiveFontSizes,
-  Theme,
-  ThemeOptions,
 } from '@mui/material'
 
 import './App.css'
@@ -27,13 +25,16 @@ import Visioning from "./pages/vision/Visioning"
 import Detail from "./pages/vision/Detail"
 import Prepare from "./pages/vision/Prepare"
 import VisionList from "./pages/vision/VisionList"
+import { useNavigate } from "react-router-dom"
 
 import { useSelector, useDispatch } from 'react-redux';
-import { changeStatus, visionInfo } from './redux/visionSlice';
+import { changeStatus, visionInfo, visionData } from './redux/visionSlice';
 
-const socket = io('http://localhost:5000')
+const socket = io(process.env.REACT_APP_API_URL)
 function App() {
 
+  const navigate = useNavigate()
+  const [isProfilePage, setIsProfilePage] = useState(false)
   const dispatch = useDispatch()
   const createAppTheme = (options) => responsiveFontSizes(createTheme(options))
   const theme = createAppTheme({
@@ -63,14 +64,20 @@ function App() {
 
   useEffect(() => {
     socket.on('generated', (data) => {
-      console.log(data)
-      dispatch(changeStatus({
-        visionStatus: 'generated'
+      dispatch(visionData({
+        visionData: {
+          description: data.description,
+          id: data._id,
+          processing: 'generated'
+        }
       }))
     })
 
     socket.on('error', (err) => {
       console.log(err)
+      dispatch(changeStatus({
+        visionStatus: 'generated'
+      }))
     })
 
     return () => {
@@ -102,12 +109,17 @@ function App() {
       </>
     )
   }
+  useEffect(() => {
+    const curUrl = window.location.href.split('/')
+    setIsProfilePage(curUrl[curUrl.length - 1] === 'profile')
+  }, [navigate])
+
   return (
     <ThemeProvider theme={theme}>
 
       <CssBaseline />
 
-      <Container>
+      <Container className={isProfilePage ? 'profile-container' : ''}>
         <Routes>
           <Route path="/" element={<Home />} />
 
@@ -123,7 +135,7 @@ function App() {
               <Route path="/vision/exercise" element={<Exercise />} />
               <Route path="/vision/visioning" element={<Visioning />} />
               <Route path="/vision/prepare" element={<Prepare />} />
-              <Route path="/vision/detail" element={<Detail />} />
+              <Route path="/vision/detail/:id" element={<Detail />} />
               <Route path="/vision/list" element={<VisionList type="list" />} />
               <Route path="/vision/search" element={<VisionList type="search" />} />
               <Route path="/vision/remix" element={<VisionList type="remix" />} />

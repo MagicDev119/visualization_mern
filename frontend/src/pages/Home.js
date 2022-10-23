@@ -37,7 +37,7 @@ const Home = () => {
             How do you envision a future in which we are to succeed in overcoming the climate crisis?
           </Box>
         </Box>
-        <Box component="div" className="fillAvailable" sx={{ position: 'fixed', bottom: 0, mr: 2, mb: 3 }}>
+        <Box component="div" className="fillAvailable footer">
           <Box component="div">
             <Button onClick={() => navigate('/user/login')} variant="contained" className="fillAvailable button">Login</Button>
           </Box>

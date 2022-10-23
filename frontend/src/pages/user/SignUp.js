@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Box, Button, Input, Checkbox, FormControlLabel, Typography, Link } from '@mui/material'
-// import GoogleButton from 'react-google-button'
 import UserService from "../../services/UserService"
 import { handleLogin } from '../../redux/authSlice'
 import { useDispatch } from 'react-redux'
@@ -17,7 +16,7 @@ const SignUp = () => {
       password
     }).then(res => {
       if (res.code === 200) {
-        dispatch(handleLogin({ ...res.user, token: res.token }))
+        dispatch(handleLogin({ ...res.user.userInfo, token: res.token }))
         setTimeout(() => {
           navigate('/user/userinfo')
         }, 100)

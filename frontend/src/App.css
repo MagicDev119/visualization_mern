@@ -62,6 +62,11 @@
   color: #a7a7a7;
 }
 
+.detail-title {
+  font-size: 16px !important;
+  font-weight: 700;
+}
+
 .label {}
 
 .button {
@@ -81,6 +86,7 @@
   margin: 0.1rem !important;
   background-color: #C2F947 !important;
   font-weight: bold !important;
+  height: fit-content;
 }
 
 .buttonText {}
@@ -106,6 +112,10 @@
   margin-left: 0;
   list-style-type: disc;
   padding-left: 22px;
+}
+
+.detail-content {
+  font-size: 15px;
 }
 
 .textOverElement {
@@ -151,6 +161,16 @@ textarea.input-text {
   outline: none;
 }
 
+.search.input-text:focus-within {
+  outline: 1px solid white;
+}
+
+.search.input-text {
+  outline: 1px solid white;
+  margin-bottom: 0;
+  margin-top: 21px;
+}
+
 .input-text input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #212121 inset;
   -webkit-text-fill-color: #FFFFFF;
@@ -168,7 +188,7 @@ textarea.input-text {
 .top-left-button {
   position: absolute !important;
   top: -3px;
-  left: -19px;
+  /* left: -19px; */
 }
 
 .padding-right-15 {
@@ -197,4 +217,180 @@ textarea.input-text {
 
 .text-black {
   color: #111 !important;
+}
+
+.tag-style {
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 2px 6px;
+  font-size: 13px;
+  margin-right: 5px;
+}
+
+@media only screen and (min-width: 768px) {
+
+  .footer {
+    position: relative;
+  }
+}
+
+.tabpanel-body {
+  background-color: #111;
+}
+
+.profile-container {
+  background-color: #7b6848;
+  background-image: linear-gradient(339deg, #7b6848 67%, #274321 95%);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.tab-select {
+  /* Makes a horizontal row */
+  float: left !important;
+  text-transform: none !important;
+  /* So the psueudo elements can be
+     abs. positioned inside */
+  font-size: 16px !important;
+  position: relative !important;
+}
+
+.tabs span {
+  /* Make them block level
+     and only as wide as they need */
+  float: left !important;
+  padding: 10px 40px !important;
+  text-decoration: none !important;
+
+  /* Default colors */
+  color: white !important;
+  background: none !important;
+
+  /* Only round the top corners */
+  -webkit-border-top-left-radius: 15px !important;
+  -webkit-border-top-right-radius: 15px !important;
+  -moz-border-radius-topleft: 15px !important;
+  -moz-border-radius-topright: 15px !important;
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+}
+
+.tabs .Mui-selected {
+  /* Highest, active tab is on top */
+  z-index: 3 !important;
+  overflow: initial;
+}
+
+.tabs .Mui-selected span {
+  /* Colors when tab is active */
+  background: #111 !important;
+  color: white !important;
+  z-index: -1;
+}
+
+.tab-select:before,
+.tab-select:after,
+.tab-select span:before,
+.tab-select span:after {
+  /* All pseudo elements are 
+     abs. positioned and on bottom */
+  position: absolute !important;
+  bottom: 0 !important;
+}
+
+/* Only the first, last, and active
+   tabs need pseudo elements at all */
+.tab-select:last-child:after,
+.tab-select:last-child span:after,
+.tab-select:first-child:before,
+.tab-select:first-child span:before,
+.tabs .Mui-selected:after,
+.tabs .Mui-selected:before,
+.tabs .Mui-selected span:after,
+.tabs .Mui-selected span:before {
+  content: "" !important;
+}
+
+.tabs .Mui-selected:before,
+.tabs .Mui-selected:after {
+  /* background: #111 !important; */
+
+  /* Squares below circles */
+  z-index: 1 !important;
+
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 73%, #111 78%) !important;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+}
+
+/* Squares */
+.tab-select:before,
+.tab-select:after {
+  background: none !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.tab-select:before {
+  border-bottom-left-radius: 50%;
+  left: -40px !important;
+}
+
+.tab-select:after {
+  border-bottom-right-radius: 50%;
+  right: -40px !important;
+}
+
+/* Circles */
+.tab-select span:after,
+.tab-select span:before {
+  width: 20px !important;
+  height: 20px !important;
+  /* Circles are circular */
+  -webkit-border-radius: 10px !important;
+  -moz-border-radius: 10px !important;
+  border-radius: 10px !important;
+  background: #222 !important;
+
+  /* Circles over squares */
+  z-index: 2 !important;
+}
+
+.tabs .Mui-selected span:after,
+.tabs .Mui-selected span:before {
+  background: none !important;
+}
+
+/* First and last tabs have different
+   outside color needs */
+.tab-select:first-child.Mui-selected span:before,
+.tab-select:last-child.Mui-selected span:after {
+  background: #111 !important;
+}
+
+.tab-select span:before {
+  left: -20px !important;
+}
+
+.tab-select span:after {
+  right: -20px !important;
+}
+
+.tabs button:first-child span {
+  border-top-left-radius: 0px !important;
+}
+
+.tabs button:last-child span {
+  border-top-right-radius: 0px !important;
+}
+
+.profile-avatar {
+  padding: 12px 6px 0px 6px;
+  background-image: url(./assets/images/default-avatar.svg);
+  width: 80px;
+  background-color: #FCFF61;
+  height: 80px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-origin: content-box;
 }

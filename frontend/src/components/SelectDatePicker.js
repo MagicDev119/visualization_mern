@@ -16,7 +16,6 @@ const SelectDatePicker = ({ handleDate, birthday }) => {
   const [dateLimit, setDateLimit] = useState(31);
 
   const changeValue = (val, cate) => {
-    console.log('val', val)
     switch (cate) {
       case 'Month':
         setMonth(val)

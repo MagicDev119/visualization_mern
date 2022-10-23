@@ -13,10 +13,11 @@ import { useNavigate } from "react-router-dom"
 import { useSelector } from 'react-redux';
 import { visionInfo, isRemix } from '../redux/visionSlice';
 
-export default function LabelBottomNavigation({ handleNavbar }) {
+export default function LabelBottomNavigation({ handleNavbar, initState }) {
 
   const navigate = useNavigate()
-  const [value, setValue] = useState('home')
+  const curUrl = window.location.href.split('/')
+  const [value, setValue] = useState(curUrl[curUrl.length - 1] || 'list')
 
   const savedVisionInfo = useSelector(visionInfo);
   const savedIsRemix = useSelector(isRemix);
@@ -24,16 +25,20 @@ export default function LabelBottomNavigation({ handleNavbar }) {
   const handleChange = (event, newValue) => {
     setValue(newValue)
     switch (newValue) {
-      case 'home':
+      case 'list':
+        initState('list')
         navigate('/vision/list')
         break
       case 'profile':
+        initState('profile')
         navigate('/user/profile')
         break
       case 'plus':
+        initState('plus')
         navigate('/vision/exercise')
         break
       case 'search':
+        initState('search')
         navigate('/vision/search')
         break
     }
@@ -64,7 +69,7 @@ export default function LabelBottomNavigation({ handleNavbar }) {
           selected: {
             color: 'red'
           }
-        }} value="home" icon={<Icon><img src={HomeIcon} /></Icon>} />
+        }} value="list" icon={<Icon><img src={HomeIcon} /></Icon>} />
         <BottomNavigationAction disabled={savedVisionInfo.processing == 'working' || savedIsRemix} value="search" icon={<Icon><img src={SearchIcon} /></Icon>} />
         <BottomNavigationAction disabled={savedVisionInfo.processing == 'working' || savedIsRemix} value="plus" icon={<Icon><img src={PlusIcon} /></Icon>} />
         <BottomNavigationAction disabled={savedVisionInfo.processing == 'working' || savedIsRemix} value="profile" icon={<Icon><img src={ProfileIcon} /></Icon>} />
